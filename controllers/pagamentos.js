@@ -22,10 +22,34 @@ module.exports = function(app){
 				res.status(500).send(erro);
 				return;
 			} else {
+				console.log('Pagamento atualizado');
 				res.send(pagamento);
 			}
 		});
 
+	});
+
+	app.delete('/pagamentos/pagamento/:id', function(req, res){
+		var pagamento = {};
+
+		var id = req.params.id;
+
+		pagamento.id = id;
+		pagamento.status = 'CANCELADO';
+		
+		var connection = app.infra.dbConnection();
+		var PagamentoDAO = new app.infra.PagamentoDAO(connection);
+
+		PagamentoDAO.atualiza(pagamento, function(erro){
+			if(erro){
+				res.status(500).send(erro);
+				return;
+			} else {
+				console.log('Pagamento cancelado');
+				// 204: No content
+				res.status(204).send(pagamento);
+			}
+		});
 	});
 
 	app.post('/pagamentos/pagamento', function(req, res){
