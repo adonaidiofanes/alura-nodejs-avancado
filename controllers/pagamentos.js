@@ -11,8 +11,14 @@ module.exports = function(app){
 		// curl http://localhost:3000/pagamentos/pagamento -X POST -v
 
 		var pagamento = req.body;
+		console.log('Processando requisicao de pagamento!');
+		
+		pagamento.status = 'CRIADO';		
+		pagamento.data = new Date;
+
 		console.log(pagamento);
-		res.send('OK!');
+
+		res.send(pagamento);
 	});
 
 }
