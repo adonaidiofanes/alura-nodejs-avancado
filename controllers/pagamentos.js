@@ -5,4 +5,14 @@ module.exports = function(app){
 		res.send('OK');
 	});
 
+	app.post('/pagamentos/pagamento', function(req, res){
+
+		// para testar vamos usar o CURL
+		// curl http://localhost:3000/pagamentos/pagamento -X POST -v
+
+		var pagamento = req.body;
+		console.log(pagamento);
+		res.send('OK!');
+	});
+
 }
