@@ -7,8 +7,17 @@ module.exports = function(app){
 
 	app.post('/pagamentos/pagamento', function(req, res){
 
-		// para testar vamos usar o CURL
-		// curl http://localhost:3000/pagamentos/pagamento -X POST -v
+		// validacoes
+		req.assert("forma_de_pagamento", "Forma de pagamento é obrigatório").notEmpty();
+
+		req.assert("valor", "Valor é obrigatório e deve ser decimal").notEmpty().isFloat();
+
+		var erros = req.validationErrors();
+		if(erros){
+			console.log('Erros de validacao');
+			res.status(400).send(erros);
+			return;
+		}
 
 		var pagamento = req.body;
 		console.log('Processando requisicao de pagamento!');
@@ -21,7 +30,8 @@ module.exports = function(app){
 
 		PagamentoDAO.salva(pagamento, function(erro, resultado){
 			if(erro){
-				res.send(erro);
+				console.log('Erro ao inserir no banco: ' + erro);
+				res.status(400).send(erro);
 			} else {
 				console.log('Pagamento criado');
 				res.json(pagamento);
