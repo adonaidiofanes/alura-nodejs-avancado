@@ -10,6 +10,7 @@ module.exports = function(){
 	
 	consign()
 		.include('controllers')
+		.then('infra')
 		.into(app);
 
 	return app;

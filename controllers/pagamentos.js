@@ -16,9 +16,14 @@ module.exports = function(app){
 		pagamento.status = 'CRIADO';		
 		pagamento.data = new Date;
 
-		console.log(pagamento);
+		var connection = app.infra.dbConnection();
+		var PagamentoDAO = new app.infra.PagamentoDAO(connection);
 
-		res.send(pagamento);
+		PagamentoDAO.salva(pagamento, function(erro, resultado){
+			console.log('Pagamento criado');
+			res.json(pagamento);
+		});
+
 	});
 
 }
