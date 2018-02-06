@@ -20,8 +20,12 @@ module.exports = function(app){
 		var PagamentoDAO = new app.infra.PagamentoDAO(connection);
 
 		PagamentoDAO.salva(pagamento, function(erro, resultado){
-			console.log('Pagamento criado');
-			res.json(pagamento);
+			if(erro){
+				res.send(erro);
+			} else {
+				console.log('Pagamento criado');
+				res.json(pagamento);
+			}
 		});
 
 	});
