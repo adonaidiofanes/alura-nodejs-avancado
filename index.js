@@ -1,5 +1,4 @@
-var express = require('express');
-var app = express();
+var app = require('./config/custom-express')();
 
 app.listen(3000, function(){
 	console.log('=======================');
@@ -7,8 +6,5 @@ app.listen(3000, function(){
 	console.log('=======================');
 });
 
-// definir rotas
-app.get('/teste', function(req, res){
-	console.log('Recebida requisicao de teste');
-	res.send('OK');
-});
+// consign: Ajuda no carregamento das rotas. 
+// Entrou no logar do express-node, e não funciona só com express.
