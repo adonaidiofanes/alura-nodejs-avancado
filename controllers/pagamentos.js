@@ -55,9 +55,9 @@ module.exports = function(app){
 	app.post('/pagamentos/pagamento', function(req, res){
 
 		// validacoes
-      	req.assert("forma_de_pagamento", "Forma de pagamento é obrigatória.").notEmpty();
-      	req.assert("valor", "Valor é obrigatório e deve ser um decimal.").notEmpty().isFloat();
-      	req.assert("moeda", "Moeda é obrigatória e deve ter 3 caracteres").notEmpty().len(3,3);
+      	req.assert("pagamento.forma_de_pagamento", "Forma de pagamento é obrigatória.").notEmpty();
+      	req.assert("pagamento.valor", "Valor é obrigatório e deve ser um decimal.").notEmpty().isFloat();
+      	req.assert("pagamento.moeda", "Moeda é obrigatória e deve ter 3 caracteres").notEmpty().len(3,3);
 
 		var erros = req.validationErrors();
 		if(erros){
@@ -66,7 +66,8 @@ module.exports = function(app){
 			return;
 		}
 
-		var pagamento = req.body;
+		var pagamento = req.body["pagamento"];
+
 		console.log('Processando requisicao de pagamento!');
 		
 		pagamento.status = 'CRIADO';		
@@ -81,12 +82,44 @@ module.exports = function(app){
 				res.status(500).send(erro);
 			} else {
 				console.log('Pagamento criado');
-				res.location('/pagamentos/pagamento/' + resultado.insertId);
-				
-				pagamento.id = resultado.insertId;
 
-				// status 201 = created
-				res.status(201).json(pagamento);
+				if(pagamento.forma_de_pagamento == 'cartao'){
+					var cartao = req.body["cartao"];
+					console.log(cartao);
+
+					var clienteCartoes = new app.servicos.clienteCartoes();
+					clienteCartoes.autoriza(cartao, function(exception, request, response, retorno){
+
+					});
+
+					res.status(201).json(cartao);
+					return;
+				} else {
+
+					res.location('/pagamentos/pagamento/' + resultado.insertId);
+					
+					pagamento.id = resultado.insertId;
+
+					// definir para o usuario quais passos ele pode seguir
+					var response = {
+						dados_do_pagamento: pagamento,
+						links: [
+							{
+								href: "http://localhost:3000/pagamentos/pagamento/" + pagamento.id,
+								rel: "confirmar",
+								method: "PUT"
+							},
+							{
+								href: "http://localhost:3000/pagamentos/pagamento/" + pagamento.id,
+								rel: "cancelar",
+								method: "DELETE"
+							}
+						]
+					}
+
+					// status 201 = created
+					res.status(201).json(response);
+				}
 			}
 		});
 

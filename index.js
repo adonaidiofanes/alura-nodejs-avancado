@@ -7,4 +7,4 @@ app.listen(3000, function(){
 });
 
 // consign: Ajuda no carregamento das rotas. 
-// Entrou no logar do express-node, e não funciona só com express.
+// Entrou no lugar do express-load, funciona com express e outras bibliotecas.
