@@ -90,10 +90,41 @@ module.exports = function(app){
 					var clienteCartoes = new app.servicos.clienteCartoes();
 					clienteCartoes.autoriza(cartao, function(exception, request, response, retorno){
 
-					});
+						if(exception){
+							console.log(exception);
+							res.status(400).send(exception);
+							return;
+						}
 
-					res.status(201).json(cartao);
-					return;
+						res.location('/pagamentos/pagamento/' + resultado.insertId);
+						
+						pagamento.id = resultado.insertId;
+
+						// definir para o usuario quais passos ele pode seguir
+						var response = {
+							dados_do_pagamento: pagamento,
+							cartao: retorno,
+							links: [
+								{
+									href: "http://localhost:3000/pagamentos/pagamento/" + pagamento.id,
+									rel: "confirmar",
+									method: "PUT"
+								},
+								{
+									href: "http://localhost:3000/pagamentos/pagamento/" + pagamento.id,
+									rel: "cancelar",
+									method: "DELETE"
+								}
+							]
+						}
+
+						// status 201 = created
+						res.status(201).json(response);
+						
+						// res.status(201).json(cartao);
+						return;
+
+					});
 				} else {
 
 					res.location('/pagamentos/pagamento/' + resultado.insertId);
