@@ -8,7 +8,7 @@ O curso tem como objetivo a capacitação das funcionalidades focadas em webserv
 1. Realize o `git clone`
 2. Abra o diretório onde você baixar o projeto e execute o comando `npm install`
 2.1. Abra o diretório `projeto-pagamento-cartao`: `cd projeto-pagamento-cartao` e instale esse segundo projeto também utilizando o comando `npm install`
-3.
+3. Monte a estrutura de banco de dados disponibilizados no arquivo `banco.sql`
 ## Fazendo os testes
 Temos a possibilidade de realizarmos testes em nosso webservice local e também no webservice dos correios.
 - RESTIFY
