@@ -11,7 +11,7 @@ module.exports = function(){
 CorreiosSOAPClient.prototype.calculaPrazo = function(args, callback){
 	soap.createClient(this._url, function(erro, cliente){
 		console.log('Cliente SOAP Correios criado');
-		// args = {'nCdServico': '40010', 'sCepOrigem': '21931190', 'sCepDestino': '50594943'}
+		// args = {"nCdServico": "40010", "sCepOrigem": "21931190", "sCepDestino": "50594943"}
 		cliente.CalcPrazo(args, callback);
 	});
 }

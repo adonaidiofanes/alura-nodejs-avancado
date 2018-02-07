@@ -1,5 +1,9 @@
 module.exports = function(app){
 
+	const PAGAMENTO_CRIADO = "CRIADO";
+	const PAGAMENTO_CONFIRMADO = "CONFIRMADO";
+	const PAGAMENTO_CANCELADO = "CANCELADO";
+
 	app.get('/pagamentos', function(req, res){
 		console.log('Recebida requisicao de teste');
 		res.send('OK');
@@ -12,7 +16,7 @@ module.exports = function(app){
 		var id = req.params.id;
 
 		pagamento.id = id;
-		pagamento.status = 'CONFIRMADO';
+		pagamento.status = PAGAMENTO_CONFIRMADO;
 		
 		var connection = app.infra.dbConnection();
 		var PagamentoDAO = new app.infra.PagamentoDAO(connection);
@@ -35,7 +39,7 @@ module.exports = function(app){
 		var id = req.params.id;
 
 		pagamento.id = id;
-		pagamento.status = 'CANCELADO';
+		pagamento.status = PAGAMENTO_CANCELADO;
 		
 		var connection = app.infra.dbConnection();
 		var PagamentoDAO = new app.infra.PagamentoDAO(connection);
@@ -70,7 +74,7 @@ module.exports = function(app){
 
 		console.log('Processando requisicao de pagamento!');
 		
-		pagamento.status = 'CRIADO';		
+		pagamento.status = PAGAMENTO_CRIADO;		
 		pagamento.data = new Date;
 
 		var connection = app.infra.dbConnection();
