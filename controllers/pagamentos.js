@@ -37,18 +37,33 @@ module.exports = function(app){
 		var id = req.params.id;
 		console.log('Consultando pagamento: ' + id);
 
-		var connection = app.infra.dbConnection();
-		var PagamentoDAO = new app.infra.PagamentoDAO(connection);
+		var memcachedClient = app.servicos.memcachedClient();
+		
+		// primeiro vamos buscar no cache
+		memcachedClient.get('pagamento-' + id, function(erro, retorno){
+			// se nao encontrar vamos buscar no banco
+			if(erro || !retorno){
+				console.log('MISS - chave nao encontrada');
 
-		PagamentoDAO.buscaPorId(id, function(erro, resultado){
-			if(erro){
-				console.log('Erro ao consultar no banco: ' + erro);
-				res.status(500).send(erro);
+				var connection = app.infra.dbConnection();
+				var PagamentoDAO = new app.infra.PagamentoDAO(connection);
+
+				PagamentoDAO.buscaPorId(id, function(erro, resultado){
+					if(erro){
+						console.log('Erro ao consultar no banco: ' + erro);
+						res.status(500).send(erro);
+						return;
+					}
+					console.log('Pagamento Encontrado: ' + JSON.stringify(resultado));
+					res.json(resultado);
+					return;
+				});
+
+			} else {
+				console.log('HIT - valor: ' + JSON.stringify(retorno));
+				res.json(retorno);
 				return;
 			}
-			console.log('Pagamento Encontrado: ' + JSON.stringify(resultado));
-			res.json(resultado);
-			return;
 		});
 
 	});
@@ -106,6 +121,15 @@ module.exports = function(app){
 				res.status(500).send(erro);
 			} else {
 				console.log('Pagamento criado');
+				
+				pagamento.id = resultado.insertId;
+
+				var memcachedClient = app.servicos.memcachedClient();
+				
+				// setar uma entrada, setar o tempo que vai ficar em cache
+				memcachedClient.set('pagamento-' + pagamento.id, pagamento, 60000, function(erro){
+					console.log('Nova chave adicionada ao cache: pagamento-' + pagamento.id);
+				});
 
 				if(pagamento.forma_de_pagamento == 'cartao'){
 					var cartao = req.body["cartao"];
@@ -122,8 +146,6 @@ module.exports = function(app){
 
 						res.location('/pagamentos/pagamento/' + resultado.insertId);
 						
-						pagamento.id = resultado.insertId;
-
 						// definir para o usuario quais passos ele pode seguir
 						var response = {
 							dados_do_pagamento: pagamento,

@@ -41,3 +41,6 @@ JSON: `{"pagamento": {"forma_de_pagamento": "Dinheiro", "valor": 90.00, "moeda":
 - Receber **Upload de arquivo** no WS. Rota escrita em `controllers/uploads.js`. O intuito é enviarmos uma arquivo para o servidor e ele gravar dentro de uma pasta chamada files.
 	Para realizar o teste, você vai ter que definir um header no post chamado filename apontando para o nome do arquivo em questão, e também realizar o envio da imagem em binary, também um content type (Content-type: application/octet-stream).
 URL para ser postada: http://localhost:3000/upload/imagem (obs: no POSTMAN só marquei type POST, passei no headers o filename, em body marquei binary e selecionei o arquivo)
+
+#### Trabalhando com memchached
+- Para fazer esse exemplo funcionar, você precisa instalar o memcached em sua máquina. As configurações do memcached está no arquivo servicos/memcachedClient.js, e as configurações para setar ou gravar um novo cache estão no arquivo controllers/pagamentos.js no `app.get('/pagamentos/pagamento/:id'` e também no `app.post('/pagamentos/pagamento', function(req, res){`
