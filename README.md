@@ -3,7 +3,7 @@
 # Curso de NodeJS Avançado
 
 Projeto oriundo de projeto desenvolvido em aulas do curso [Alura](http://www.alura.com.br).
-O curso tem como objetivo a capacitação das funcionalidades focadas em webservices. Utilizei a comunicação de servidor REST interno e também de SOAP externo.
+O [curso de Node JS Avançado](https://www.alura.com.br/curso-online-nodejs-avancado), tem como objetivo a capacitação das funcionalidades focadas em webservices. Utilizei a comunicação de servidor REST interno e também de SOAP externo.
 
 ## Conteúdo
 Nos exemplos desse projeto, teremos a capacidade de realizar as seguintes funções:
@@ -29,6 +29,7 @@ Temos a possibilidade de realizarmos testes em nosso webservice local e também 
 JSON: `{"pagamento": {"forma_de_pagamento": "Dinheiro", "valor": 90.00, "moeda": "USD", "descricao": "criando um pagamento"} }`
 -- Para utilizarmos o pagamento em cartão, teremos que iniciar nosso outro projeto (`projeto-pagamento-cartao`) que roda na porta 3001, pois ele vai servir como um webservice para nós fazermos os testes
 -- Utilizando o método de pagamento cartão: utilize a seguinte url: `http://localhost:3000/pagamentos/pagamento` utilizando o seguinte JSON: `{ "pagamento": { "forma_de_pagamento": "cartao", "valor": 90.00, "moeda": "USD", "descricao": "criando um pagamento" }, "cartao": { "numero": 1234567891234567, "bandeira": "visa", "ano_de_expiracao": 2016, "mes_de_expiracao": "02", "cvv": 123 } }`
+-- Para consultar um pagamento já existente, utilize a rota: `http://localhost:3000/pagamentos/pagamento/ID_DO_PAGAMENTO`
 
 - Consultar a **api dos correios** para calcular prazo de entrega
 -- Utilizar SOAP para fazer comunicação com webservice dos correios.

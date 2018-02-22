@@ -33,6 +33,26 @@ module.exports = function(app){
 
 	});
 
+	app.get('/pagamentos/pagamento/:id', function(req, res){
+		var id = req.params.id;
+		console.log('Consultando pagamento: ' + id);
+
+		var connection = app.infra.dbConnection();
+		var PagamentoDAO = new app.infra.PagamentoDAO(connection);
+
+		PagamentoDAO.buscaPorId(id, function(erro, resultado){
+			if(erro){
+				console.log('Erro ao consultar no banco: ' + erro);
+				res.status(500).send(erro);
+				return;
+			}
+			console.log('Pagamento Encontrado: ' + JSON.stringify(resultado));
+			res.json(resultado);
+			return;
+		});
+
+	});
+
 	app.delete('/pagamentos/pagamento/:id', function(req, res){
 		var pagamento = {};
 
