@@ -47,3 +47,4 @@ URL para ser postada: http://localhost:3000/upload/imagem (obs: no POSTMAN só m
 
 ### Trabalhando com Logs
 - Exemplos realizados utilizando Winston.
+- Exemplos realizados utilizando Morgan (específico para express), integrando com o Winston.
