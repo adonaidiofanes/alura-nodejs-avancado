@@ -1,3 +1,5 @@
+var logger = require('../servicos/logger.js');
+
 module.exports = function(app){
 
 	const PAGAMENTO_CRIADO = "CRIADO";
@@ -36,6 +38,7 @@ module.exports = function(app){
 	app.get('/pagamentos/pagamento/:id', function(req, res){
 		var id = req.params.id;
 		console.log('Consultando pagamento: ' + id);
+		logger.info('Consultando pagamento: ' + id);
 
 		var memcachedClient = app.servicos.memcachedClient();
 		
