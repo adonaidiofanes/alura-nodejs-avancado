@@ -46,5 +46,8 @@ URL para ser postada: http://localhost:3000/upload/imagem (obs: no POSTMAN só m
 - Para fazer esse exemplo funcionar, você precisa instalar o memcached em sua máquina, após instalar, execute utilizando `memcached -vv`. As configurações do memcached está no arquivo servicos/memcachedClient.js, e as configurações para setar ou gravar um novo cache estão no arquivo controllers/pagamentos.js no `app.get('/pagamentos/pagamento/:id'` e também no `app.post('/pagamentos/pagamento', function(req, res){`
 
 ### Trabalhando com Logs
-- Exemplos realizados utilizando Winston.
-- Exemplos realizados utilizando Morgan (específico para express), integrando com o Winston.
+- Exemplos realizados utilizando [**Winston**](https://www.npmjs.com/package/winston).
+- Exemplos realizados utilizando [**Morgan**](https://www.npmjs.com/package/morgan) (específico para express), integrando com o Winston.
+
+### Trabalhando com cluster
+- Utilizando a biblioteca **cluster** para controlar threads, e conhecendo a biblioteca **OS**.
