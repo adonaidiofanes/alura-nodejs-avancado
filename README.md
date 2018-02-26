@@ -50,4 +50,4 @@ URL para ser postada: http://localhost:3000/upload/imagem (obs: no POSTMAN só m
 - Exemplos realizados utilizando [**Morgan**](https://www.npmjs.com/package/morgan) (específico para express), integrando com o Winston.
 
 ### Trabalhando com cluster
-- Utilizando a biblioteca **cluster** para controlar threads, e conhecendo a biblioteca **OS**.
+- Utilizando a biblioteca [**cluster**](https://nodejs.org/api/cluster.html) para controlar threads, e conhecendo a biblioteca [**OS**](https://nodejs.org/api/os.html).
